@@ -33,16 +33,24 @@ public class Order {
     public void onPostPersist() {
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
+    }
 
+    @PreRemove
+    public void onPreRemove(){
         OrderCancelled orderCancelled = new OrderCancelled(this);
         orderCancelled.publishAfterCommit();
     }
-
+    
     public static OrderRepository repository() {
         OrderRepository orderRepository = OrderApplication.applicationContext.getBean(
             OrderRepository.class
         );
         return orderRepository;
     }
+    
+   
+    
+
+
 }
 //>>> DDD / Aggregate Root
